@@ -35,6 +35,7 @@ For the generic usage's help section, `sigmai` is equipped with the `--help` fla
 >       --misp-url string           MISP: Instance API base URL
 >       --misp-warning-include      MISP: Include attributes listed on warning-list
 >       --misp-workers int          MISP: Number of concurrent workers (default 20)
+>   -q, --quiet                     Only output error information
 >   -s, --source string             Source backend [misp]
 >       --tags-add stringArray      Add tags on all rules
 >       --tags-clear                Clear tags from all rules
@@ -102,6 +103,8 @@ Currently, both `stdout` and `directory` are implemented.
 #### Stdout
 This target outputs the generated Sigma rules to the [standard output](https://en.wikipedia.org/wiki/Stdout).
 It can be selected by using `stdout` as the `--target` flag's value.
+
+Do note that all other logging is send to the  [standard error](https://en.wikipedia.org/wiki/Standard_streams#Standard_error_(stderr)), which enables you to split logging and generated Sigma rules.
 
 #### Directory
 This target output's the generated Sigma rules into a directory, which defaults to the current one.

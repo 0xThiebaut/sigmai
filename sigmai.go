@@ -50,7 +50,7 @@ func main() {
 	oDirectoryFlags := bindDirectoryOptions(oDirectory)
 	f.AddFlagSet(oDirectoryFlags)
 	// Parse the CLI arguments and send errors to stderr
-	if err := f.Parse(os.Args[1:]); err != nil || o.Help {
+	if err := f.Parse(os.Args[1:]); err != nil || o.Help || f.NFlag() == 0 {
 		// Output the general usage
 		_, _ = fmt.Fprintf(os.Stderr, "Usage of %s:\r\n%s", os.Args[0], f.FlagUsages())
 		// If an error occurred, also output the error
@@ -80,8 +80,10 @@ func main() {
 	// Capture the timestamp in the logs
 	log := zerolog.New(out).Level(zerolog.InfoLevel).With().Timestamp().Logger()
 	// Log debug messages if needed
-	if !o.Verbose {
+	if o.Verbose {
 		log = log.Level(zerolog.DebugLevel)
+	} else if o.Quiet {
+		log = log.Level(zerolog.ErrorLevel)
 	}
 	// Define our source based on the `-s` flag
 	var s sources.Source
@@ -89,8 +91,10 @@ func main() {
 	switch source(o.Source) {
 	case sourceMISP:
 		s, serr = misp.New(oMISP, log)
+	case "":
+		serr = fmt.Errorf("missing source, use --help to see available sources")
 	default:
-		serr = fmt.Errorf("unknown source %#v", o.Source)
+		serr = fmt.Errorf("unknown source %#v, use --help to see available sources", o.Source)
 	}
 	if serr != nil {
 		log.Err(serr).Msg("an error occurred setting up the source")
@@ -105,8 +109,10 @@ func main() {
 		t = stdout.New()
 	case targetDirectory:
 		t = directory.New(oDirectory, log)
+	case "":
+		serr = fmt.Errorf("missing target, use --help to see available targets")
 	default:
-		terr = fmt.Errorf("unknown target %#v", o.Target)
+		terr = fmt.Errorf("unknown target %#v, use --help to see available targets", o.Target)
 	}
 	if terr != nil {
 		log.Err(terr).Msg("an error occurred setting up the target")
@@ -188,6 +194,7 @@ type options struct {
 	Help     bool
 	Target   string
 	Verbose  bool
+	Quiet    bool
 	Interval string
 	JSON     bool
 }
@@ -213,6 +220,7 @@ func bindOptions(o *options) *flag.FlagSet {
 	f.StringVarP(&o.Target, "target", "t", string(targetStdout), fmt.Sprintf("Target backend [%s, %s]", targetStdout, targetDirectory))
 	f.BoolVarP(&o.Help, "help", "h", false, "Display this help section")
 	f.BoolVarP(&o.Verbose, "verbose", "v", o.Verbose, "Show debug information")
+	f.BoolVarP(&o.Quiet, "quiet", "q", o.Quiet, "Only output error information")
 	f.StringVarP(&o.Interval, "interval", "i", o.Interval, "Continuous importing interval")
 	f.BoolVar(&o.JSON, "json", o.JSON, "Output JSON instead of pretty print")
 	return f
