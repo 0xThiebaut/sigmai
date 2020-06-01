@@ -234,6 +234,7 @@ func bindMISPOptions(o *misp.Options) *flag.FlagSet {
 	f.StringArrayVar(&o.WorkerOptions.Tags, "misp-tags", o.WorkerOptions.Tags, "MISP: Only events with matching tags")
 	f.StringArrayVar(&o.WorkerOptions.ThreatLevel, "misp-levels", o.WorkerOptions.ThreatLevel, fmt.Sprintf("MISP: Only events with matching threat levels [1-4]"))
 	f.IntVar(&o.Workers, "misp-workers", o.Workers, "MISP: Number of concurrent workers")
+	f.StringVar(&o.WorkerOptions.Search, "misp-search", o.WorkerOptions.Search, "MISP: All events containing substring")
 	return f
 }
 

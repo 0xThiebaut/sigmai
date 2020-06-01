@@ -14,6 +14,36 @@ For the generic usage's help section, `sigmai` is equipped with the `--help` fla
 ./sigmai --help
 ```
 
+> ```
+> Usage of ./sigmai:
+>       --directory-path string     Directory: Path to save rules
+>   -h, --help                      Display this help section
+>   -i, --interval string           Continuous importing interval
+>       --json                      Output JSON instead of pretty print
+>       --misp-buffer int           MISP: Size of the event buffer (default 500)
+>       --misp-events ints          MISP: Only events with matching IDs
+>       --misp-ids-exclude          MISP: Only IDS-disabled attributes
+>       --misp-ids-ignore           MISP: All attributes regardless of their IDS flag
+>       --misp-insecure             MISP: Allow insecure connections when using SSL
+>       --misp-key string           MISP: User API key
+>       --misp-levels stringArray   MISP: Only events with matching threat levels [1-4]
+>       --misp-period strings       MISP: Only events within time-frame (4d, 3w, ...)
+>       --misp-published            MISP: Only published events
+>       --misp-published-exclude    MISP: Only unpublished events
+>       --misp-search string        MISP: All events containing substring
+>       --misp-tags stringArray     MISP: Only events with matching tags
+>       --misp-url string           MISP: Instance API base URL
+>       --misp-warning-include      MISP: Include attributes listed on warning-list
+>       --misp-workers int          MISP: Number of concurrent workers (default 20)
+>   -s, --source string             Source backend [misp]
+>       --tags-add stringArray      Add tags on all rules
+>       --tags-clear                Clear tags from all rules
+>       --tags-rm stringArray       Remove tags from all rules
+>       --tags-set stringArray      Set tags on all rules
+>   -t, --target string             Target backend [stdout, directory] (default "stdout")
+>   -v, --verbose                   Show debug information
+> ```
+
 ### Sources
 A source is the origin from which data will be fetched in order to generate Sigma rules.
 Currently, [MISP](https://github.com/MISP/MISP) is the only implemented source.
@@ -30,7 +60,8 @@ When using MISP, The following flags are required:
 | `--misp-url`    | The URL at which the MISP instance API can be queried (i.e. `https://localhost`). |
 | `--misp-key`    | A User API key authorized to query the MISP instance.                             |
 
-A sample `sigmai` command would be as follow:
+##### Use Cases
+A sample `sigmai` command would be as follows:
 
 ```bash
 ./sigmai -t stdout -s misp --misp-url https://localhost --misp-key CAFEBABE== --misp-levels 1,2
@@ -41,6 +72,26 @@ The Sigma rules are to be generated from the `misp` source (`-s`).
 In MISP, we'll solely generate Sigma rules for event's with a level (`--misp-levels`) of high (`1`) or medium (`2`).
 For the eligible events, only attributes flagged for IDS (decent enough for detection) will be used.
 Furthermore, any attribute on a [warning list](https://github.com/MISP/misp-warninglists) (a.k.a. subject to false positives) won't be included.
+
+###### Specific Events
+Alternatively, you might wish to import a specific set of events.
+To do so, you might use the `--misp-events` flag as follows:
+
+```bash
+./sigmai -t stdout -s misp --misp-url https://localhost --misp-key CAFEBABE== --misp-events 123,456,789
+```
+
+The above command will import the events with IDs `123`, `456` and `789`.
+
+###### Searching Events
+You can also import events whose description contains a specific case-sensitive sub-string.
+To do so, you would need to use the `--misp-search` flag as follows:
+
+```bash
+./sigmai -t stdout -s misp --misp-url https://localhost --misp-key CAFEBABE== --misp-search emotet
+```
+
+The above command will import all events whose description contains the `emotet` substring.
 
 ### Targets
 A target is a way to select where to send the generated Sigma rules.
