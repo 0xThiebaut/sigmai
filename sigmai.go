@@ -224,7 +224,7 @@ func bindMISPOptions(o *misp.Options) *flag.FlagSet {
 	f.BoolVar(&o.WorkerOptions.Insecure, "misp-insecure", o.WorkerOptions.Insecure, "MISP: Allow insecure connections when using SSL")
 	f.StringVar(&o.WorkerOptions.Key, "misp-key", o.WorkerOptions.Key, "MISP: User API key")
 	f.IntSliceVar(&o.WorkerOptions.Events, "misp-events", o.WorkerOptions.Events, "MISP: Only events with matching IDs")
-	f.BoolVar(&o.WorkerOptions.IDSInclude, "misp-ids", o.WorkerOptions.IDSInclude, "MISP: Only IDS-enabled attributes")
+	f.BoolVar(&o.WorkerOptions.IDSIgnore, "misp-ids-ignore", o.WorkerOptions.IDSIgnore, "MISP: All attributes regardless of their IDS flag")
 	f.BoolVar(&o.WorkerOptions.IDSExclude, "misp-ids-exclude", o.WorkerOptions.IDSExclude, "MISP: Only IDS-disabled attributes")
 	f.StringSliceVar(&o.WorkerOptions.Period, "misp-period", o.WorkerOptions.Period, "MISP: Only events within time-frame (4d, 3w, ...)")
 	f.BoolVar(&o.WorkerOptions.PublishedInclude, "misp-published", o.WorkerOptions.PublishedInclude, "MISP: Only published events")

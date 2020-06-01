@@ -33,7 +33,7 @@ When using MISP, The following flags are required:
 A sample `sigmai` command would be as follow:
 
 ```bash
-./sigmai -t stdout -s misp --misp-url https://localhost --misp-key CAFEBABE== --misp-levels 1,2 --misp-ids --misp-warning-exclude
+./sigmai -t stdout -s misp --misp-url https://localhost --misp-key CAFEBABE== --misp-levels 1,2 --misp-warning-exclude
 ```
 
 The above command sends the Sigma rules to the `stdout` target (`-t`; more on that later).

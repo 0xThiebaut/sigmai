@@ -11,7 +11,7 @@ type Options struct {
 	Insecure         bool
 	Period           []string
 	Events           []int
-	IDSInclude       bool
+	IDSIgnore        bool
 	IDSExclude       bool
 	PublishedInclude bool
 	PublishedExclude bool
@@ -79,11 +79,11 @@ func (o Options) AttributeFilter() map[string]interface{} {
 	f := map[string]interface{}{
 		"limit": o.Buffer,
 	}
-	if o.IDSInclude != o.IDSExclude {
-		if o.IDSInclude {
-			f["to_ids"] = "1"
-		} else {
+	if !o.IDSIgnore {
+		if o.IDSExclude {
 			f["to_ids"] = "0"
+		} else {
+			f["to_ids"] = "1"
 		}
 	}
 	if o.WarningExclude {
