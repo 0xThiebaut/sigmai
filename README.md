@@ -33,14 +33,14 @@ When using MISP, The following flags are required:
 A sample `sigmai` command would be as follow:
 
 ```bash
-./sigmai -t stdout -s misp --misp-url https://localhost --misp-key CAFEBABE== --misp-levels 1,2 --misp-warning-exclude
+./sigmai -t stdout -s misp --misp-url https://localhost --misp-key CAFEBABE== --misp-levels 1,2
 ```
 
 The above command sends the Sigma rules to the `stdout` target (`-t`; more on that later).
 The Sigma rules are to be generated from the `misp` source (`-s`).
 In MISP, we'll solely generate Sigma rules for event's with a level (`--misp-levels`) of high (`1`) or medium (`2`).
-For the eligible events, we only want the attributes flagged for IDS (decent enough for detection) to be used (`--misp-ids`).
-Furthermore, any attribute on a [warning list](https://github.com/MISP/misp-warninglists) (a.k.a. subject to false positives) is to be excluded (`--misp-warning-exclude`).
+For the eligible events, only attributes flagged for IDS (decent enough for detection) will be used.
+Furthermore, any attribute on a [warning list](https://github.com/MISP/misp-warninglists) (a.k.a. subject to false positives) won't be included.
 
 ### Targets
 A target is a way to select where to send the generated Sigma rules.

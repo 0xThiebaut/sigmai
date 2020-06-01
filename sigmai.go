@@ -230,7 +230,7 @@ func bindMISPOptions(o *misp.Options) *flag.FlagSet {
 	f.BoolVar(&o.WorkerOptions.PublishedInclude, "misp-published", o.WorkerOptions.PublishedInclude, "MISP: Only published events")
 	f.BoolVar(&o.WorkerOptions.PublishedExclude, "misp-published-exclude", o.WorkerOptions.PublishedExclude, "MISP: Only unpublished events")
 	f.IntVar(&o.WorkerOptions.Buffer, "misp-buffer", o.WorkerOptions.Buffer, "MISP: Size of the event buffer")
-	f.BoolVar(&o.WorkerOptions.WarningExclude, "misp-warning-exclude", o.WorkerOptions.WarningExclude, "MISP: Only attributes without warning-list")
+	f.BoolVar(&o.WorkerOptions.WarningInclude, "misp-warning-include", o.WorkerOptions.WarningInclude, "MISP: Include attributes listed on warning-list")
 	f.StringArrayVar(&o.WorkerOptions.Tags, "misp-tags", o.WorkerOptions.Tags, "MISP: Only events with matching tags")
 	f.StringArrayVar(&o.WorkerOptions.ThreatLevel, "misp-levels", o.WorkerOptions.ThreatLevel, fmt.Sprintf("MISP: Only events with matching threat levels [1-4]"))
 	f.IntVar(&o.Workers, "misp-workers", o.Workers, "MISP: Number of concurrent workers")

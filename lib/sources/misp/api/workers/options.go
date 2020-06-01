@@ -16,7 +16,7 @@ type Options struct {
 	PublishedInclude bool
 	PublishedExclude bool
 	Buffer           int
-	WarningExclude   bool
+	WarningInclude   bool
 	Tags             []string
 	ThreatLevel      []string
 }
@@ -86,7 +86,7 @@ func (o Options) AttributeFilter() map[string]interface{} {
 			f["to_ids"] = "1"
 		}
 	}
-	if o.WarningExclude {
+	if !o.WarningInclude {
 		f["enforceWarninglist"] = "1"
 	}
 	return f
