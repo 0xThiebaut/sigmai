@@ -3,19 +3,23 @@ Sigma Importer (a.k.a. `sigmai`) is a project designed to do the opposite of [Si
 The objective of `sigmai` is to convert specific data sources into the Sigma generic and open signature format.
 
 ## Installation
-This project is written in Go.
-The easiest way to install `sigmai` is to [get the release binaries](https://github.com/0xThiebaut/sigmai/releases).
-Alternatively, one can [install the project from source](https://golang.org/cmd/go/) as would be done for any Go project. 
+If you have [Go](https://golang.org/) installed, you can get the newest version of `sigmai` through:
+
+```bash
+go get github.com/0xThiebaut/sigmai
+```
+
+Alternatively, you can download the [release binaries](https://github.com/0xThiebaut/sigmai/releases) which are updated less frequently.
 
 ## Usage
 For the generic usage's help section, `sigmai` is equipped with the `--help` flag (shorthand `-h`).
 
 ```bash
-./sigmai --help
+sigmai --help
 ```
 
 > ```
-> Usage of ./sigmai:
+> Usage of sigmai:
 >       --directory-path string     Directory: Path to save rules
 >   -h, --help                      Display this help section
 >   -i, --interval string           Continuous importing interval
@@ -65,7 +69,7 @@ When using MISP, The following flags are required:
 A sample `sigmai` command would be as follows:
 
 ```bash
-./sigmai -t stdout -s misp --misp-url https://localhost --misp-key CAFEBABE== --misp-levels 1,2
+sigmai -t stdout -s misp --misp-url https://localhost --misp-key CAFEBABE== --misp-levels 1,2
 ```
 
 The above command sends the Sigma rules to the `stdout` target (`-t`; more on that later).
@@ -79,7 +83,7 @@ Alternatively, you might wish to import a specific set of events.
 To do so, you might use the `--misp-events` flag as follows:
 
 ```bash
-./sigmai -t stdout -s misp --misp-url https://localhost --misp-key CAFEBABE== --misp-events 123,456,789
+sigmai -t stdout -s misp --misp-url https://localhost --misp-key CAFEBABE== --misp-events 123,456,789
 ```
 
 The above command will import the events with IDs `123`, `456` and `789`.
@@ -89,7 +93,7 @@ You can also import events whose description contains a specific case-sensitive 
 To do so, you would need to use the `--misp-search` flag as follows:
 
 ```bash
-./sigmai -t stdout -s misp --misp-url https://localhost --misp-key CAFEBABE== --misp-search emotet
+sigmai -t stdout -s misp --misp-url https://localhost --misp-key CAFEBABE== --misp-search emotet
 ```
 
 The above command will import all events whose description contains the `emotet` substring.
@@ -132,7 +136,7 @@ This flag can be combined with source's period-filters such as MISP's `--misp-pe
 As an example, the beneath command will import the last 15 minutes of MISP events as Sigma rules every 10 minutes.
 
 ```bash
-./sigmai -t directory --directory-path ~/rules -i 10m -s misp --misp-url https://localhost --misp-key CAFEBABE== --misp-period 15m
+sigmai -t directory --directory-path ~/rules -i 10m -s misp --misp-url https://localhost --misp-key CAFEBABE== --misp-period 15m
 ``` 
 
 ## Acknowledgements
