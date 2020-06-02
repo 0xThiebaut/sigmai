@@ -148,6 +148,12 @@ As an example, the beneath command will import the last 15 minutes of MISP event
 sigmai -t directory --directory-path ~/rules -i 10m -s misp --misp-url https://localhost --misp-key CAFEBABE== --misp-period 15m
 ``` 
 
+## Tips & Tricks
+
+### Filter Your Queries
+The `sigmai`-generated queries will hopefully cover more cases (log-sources, platforms, ...) than you actually need.
+Did you know that when compiling the Sigma rules with `sigmac`, you can [filter rules](https://github.com/Neo23x0/sigma#usage) to match your use-cases through the `--filter` flag (shorthand `-f`)?
+
 ## Acknowledgements
 Development of this project has been supported by [NVISO Labs](https://www.nviso.eu/en/research). Interested in this project? You might [fit with us](https://www.nviso.eu/en/jobs)!
 
