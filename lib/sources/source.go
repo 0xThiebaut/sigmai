@@ -1,7 +1,7 @@
 package sources
 
 import (
-	"sigmai/lib/sigma"
+	"github.com/0xThiebaut/sigmai/lib/sigma"
 )
 
 // Source is an abstraction representing an origin generating Sigma rules.

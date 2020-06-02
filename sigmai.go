@@ -2,17 +2,17 @@ package main
 
 import (
 	"fmt"
+	"github.com/0xThiebaut/sigmai/lib/modifiers"
+	"github.com/0xThiebaut/sigmai/lib/sources"
+	"github.com/0xThiebaut/sigmai/lib/sources/misp"
+	"github.com/0xThiebaut/sigmai/lib/sources/misp/api/workers"
+	"github.com/0xThiebaut/sigmai/lib/targets"
+	"github.com/0xThiebaut/sigmai/lib/targets/directory"
+	"github.com/0xThiebaut/sigmai/lib/targets/stdout"
 	"github.com/rs/zerolog"
 	flag "github.com/spf13/pflag"
 	"io"
 	"os"
-	"sigmai/lib/modifiers"
-	"sigmai/lib/sources"
-	"sigmai/lib/sources/misp"
-	"sigmai/lib/sources/misp/api/workers"
-	"sigmai/lib/targets"
-	"sigmai/lib/targets/directory"
-	"sigmai/lib/targets/stdout"
 	"time"
 )
 

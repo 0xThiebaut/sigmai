@@ -1,7 +1,7 @@
 package search
 
 import (
-	"sigmai/lib/sigma/field"
+	"github.com/0xThiebaut/sigmai/lib/sigma/field"
 )
 
 func (s Searches) MarshalYAML() (interface{}, error) {

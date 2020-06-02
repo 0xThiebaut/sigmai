@@ -1,6 +1,6 @@
 package targets
 
-import "sigmai/lib/sigma"
+import "github.com/0xThiebaut/sigmai/lib/sigma"
 
 // Target is an abstraction defining where to send the generated Sigma rules.
 type Target interface {

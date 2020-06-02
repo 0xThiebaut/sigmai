@@ -1,11 +1,11 @@
 package event
 
 import (
-	"sigmai/lib/sources/misp/lib/attribute"
-	"sigmai/lib/sources/misp/lib/object"
-	"sigmai/lib/sources/misp/lib/organisation"
-	"sigmai/lib/sources/misp/lib/sharinggroup"
-	"sigmai/lib/sources/misp/lib/tag"
+	"github.com/0xThiebaut/sigmai/lib/sources/misp/lib/attribute"
+	"github.com/0xThiebaut/sigmai/lib/sources/misp/lib/object"
+	"github.com/0xThiebaut/sigmai/lib/sources/misp/lib/organisation"
+	"github.com/0xThiebaut/sigmai/lib/sources/misp/lib/sharinggroup"
+	"github.com/0xThiebaut/sigmai/lib/sources/misp/lib/tag"
 )
 
 type Event struct {

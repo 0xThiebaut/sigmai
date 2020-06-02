@@ -2,7 +2,7 @@ package api
 
 import (
 	"fmt"
-	"sigmai/lib/sources/misp/api/workers"
+	"github.com/0xThiebaut/sigmai/lib/sources/misp/api/workers"
 )
 
 type Options struct {

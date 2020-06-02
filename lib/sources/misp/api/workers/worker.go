@@ -4,12 +4,12 @@ import (
 	"bytes"
 	"crypto/tls"
 	"encoding/json"
+	"github.com/0xThiebaut/sigmai/lib/sources/misp/lib/attribute"
+	"github.com/0xThiebaut/sigmai/lib/sources/misp/lib/event"
+	"github.com/0xThiebaut/sigmai/lib/sources/misp/lib/object"
 	"github.com/rs/zerolog"
 	"net/http"
 	"net/url"
-	"sigmai/lib/sources/misp/lib/attribute"
-	"sigmai/lib/sources/misp/lib/event"
-	"sigmai/lib/sources/misp/lib/object"
 	"sync"
 )
 

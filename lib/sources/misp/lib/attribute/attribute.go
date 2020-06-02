@@ -1,7 +1,7 @@
 package attribute
 
 import (
-	"sigmai/lib/sources/misp/lib/organisation"
+	"github.com/0xThiebaut/sigmai/lib/sources/misp/lib/organisation"
 )
 
 type Attribute struct {

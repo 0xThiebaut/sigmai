@@ -1,6 +1,6 @@
 package sharinggroup
 
-import "sigmai/lib/sources/misp/lib/organisation"
+import "github.com/0xThiebaut/sigmai/lib/sources/misp/lib/organisation"
 
 type Group struct {
 	ID                 string `json:",omitempty"`

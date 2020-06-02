@@ -1,8 +1,8 @@
 package sigma
 
 import (
-	"sigmai/lib/sigma/condition"
-	"sigmai/lib/sigma/search"
+	"github.com/0xThiebaut/sigmai/lib/sigma/condition"
+	"github.com/0xThiebaut/sigmai/lib/sigma/search"
 )
 
 type Detection struct {

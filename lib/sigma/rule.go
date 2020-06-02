@@ -1,6 +1,6 @@
 package sigma
 
-import "sigmai/lib/sigma/field"
+import "github.com/0xThiebaut/sigmai/lib/sigma/field"
 
 type Rule struct {
 	Action         Action         `yaml:",omitempty"`

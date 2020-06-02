@@ -2,13 +2,13 @@ package converter
 
 import (
 	"fmt"
+	"github.com/0xThiebaut/sigmai/lib/sigma"
+	"github.com/0xThiebaut/sigmai/lib/sigma/condition"
+	"github.com/0xThiebaut/sigmai/lib/sigma/field"
+	"github.com/0xThiebaut/sigmai/lib/sigma/search"
+	"github.com/0xThiebaut/sigmai/lib/sources/misp/lib/attribute"
+	"github.com/0xThiebaut/sigmai/lib/sources/misp/lib/event"
 	"github.com/rs/zerolog"
-	"sigmai/lib/sigma"
-	"sigmai/lib/sigma/condition"
-	"sigmai/lib/sigma/field"
-	"sigmai/lib/sigma/search"
-	"sigmai/lib/sources/misp/lib/attribute"
-	"sigmai/lib/sources/misp/lib/event"
 	"strings"
 )
 

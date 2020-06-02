@@ -1,11 +1,11 @@
 package misp
 
 import (
+	"github.com/0xThiebaut/sigmai/lib/sigma"
+	"github.com/0xThiebaut/sigmai/lib/sources"
+	"github.com/0xThiebaut/sigmai/lib/sources/misp/api"
+	"github.com/0xThiebaut/sigmai/lib/sources/misp/converter"
 	"github.com/rs/zerolog"
-	"sigmai/lib/sigma"
-	"sigmai/lib/sources"
-	"sigmai/lib/sources/misp/api"
-	"sigmai/lib/sources/misp/converter"
 )
 
 type misp struct {

@@ -1,10 +1,10 @@
 package stdout
 
 import (
+	"github.com/0xThiebaut/sigmai/lib/sigma"
+	"github.com/0xThiebaut/sigmai/lib/targets"
 	"gopkg.in/yaml.v2"
 	"os"
-	"sigmai/lib/sigma"
-	"sigmai/lib/targets"
 )
 
 type stdout struct {

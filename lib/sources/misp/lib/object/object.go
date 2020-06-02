@@ -1,6 +1,6 @@
 package object
 
-import "sigmai/lib/sources/misp/lib/attribute"
+import "github.com/0xThiebaut/sigmai/lib/sources/misp/lib/attribute"
 
 type Object struct {
 	UUID            string

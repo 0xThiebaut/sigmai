@@ -1,9 +1,9 @@
 package api
 
 import (
+	"github.com/0xThiebaut/sigmai/lib/sources/misp/api/workers"
+	"github.com/0xThiebaut/sigmai/lib/sources/misp/lib/event"
 	"github.com/rs/zerolog"
-	"sigmai/lib/sources/misp/api/workers"
-	"sigmai/lib/sources/misp/lib/event"
 	"sync"
 )
 

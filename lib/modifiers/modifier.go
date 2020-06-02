@@ -1,6 +1,6 @@
 package modifiers
 
-import "sigmai/lib/sigma"
+import "github.com/0xThiebaut/sigmai/lib/sigma"
 
 type Modifier struct {
 	Options *Options

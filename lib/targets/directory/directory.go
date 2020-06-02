@@ -3,12 +3,12 @@ package directory
 import (
 	"errors"
 	"fmt"
+	"github.com/0xThiebaut/sigmai/lib/sigma"
+	"github.com/0xThiebaut/sigmai/lib/targets"
 	"github.com/rs/zerolog"
 	"gopkg.in/yaml.v2"
 	"os"
 	"path"
-	"sigmai/lib/sigma"
-	"sigmai/lib/targets"
 )
 
 type directory struct {
