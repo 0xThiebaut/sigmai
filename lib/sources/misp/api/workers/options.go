@@ -19,7 +19,7 @@ type Options struct {
 	WarningInclude   bool
 	Tags             []string
 	ThreatLevel      []string
-	Search           string
+	Keywords         []string
 }
 
 func (o Options) Validate() error {
@@ -65,8 +65,12 @@ func (o Options) EventFilter() map[string]interface{} {
 	if len(o.ThreatLevel) > 0 {
 		f["threat_level_id"] = o.ThreatLevel
 	}
-	if len(o.Search) > 0 {
-		f["eventinfo"] = "%" + o.Search + "%"
+	if len(o.Keywords) > 0 {
+		substrings := make([]string, len(o.Keywords))
+		for i, k := range o.Keywords {
+			substrings[i] = "%" + k + "%"
+		}
+		f["eventinfo"] = substrings
 	}
 	return f
 }
