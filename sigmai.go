@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/0xThiebaut/sigmai/lib/modifiers"
+	"github.com/0xThiebaut/sigmai/lib/sigma"
 	"github.com/0xThiebaut/sigmai/lib/sources"
 	"github.com/0xThiebaut/sigmai/lib/sources/misp"
 	"github.com/0xThiebaut/sigmai/lib/sources/misp/api/workers"
@@ -240,7 +241,7 @@ func bindMISPOptions(o *misp.Options) *flag.FlagSet {
 	f.IntVar(&o.WorkerOptions.Buffer, "misp-buffer", o.WorkerOptions.Buffer, "MISP: Size of the event buffer")
 	f.BoolVar(&o.WorkerOptions.WarningInclude, "misp-warning-include", o.WorkerOptions.WarningInclude, "MISP: Include attributes listed on warning-list")
 	f.StringArrayVar(&o.WorkerOptions.Tags, "misp-tags", o.WorkerOptions.Tags, "MISP: Only events with matching tags")
-	f.StringArrayVar(&o.WorkerOptions.ThreatLevel, "misp-levels", o.WorkerOptions.ThreatLevel, fmt.Sprintf("MISP: Only events with matching threat levels [1-4]"))
+	f.StringArrayVar(&o.WorkerOptions.ThreatLevel, "misp-levels", o.WorkerOptions.ThreatLevel, "MISP: Only events with matching threat levels [1-4]")
 	f.IntVar(&o.Workers, "misp-workers", o.Workers, "MISP: Number of concurrent workers")
 	f.StringArrayVar(&o.WorkerOptions.Keywords, "misp-keywords", o.WorkerOptions.Keywords, "MISP: All events containing any of the keywords")
 	return f
@@ -258,6 +259,8 @@ func bindModifierOptions(o *modifiers.Options) *flag.FlagSet {
 	f.StringArrayVar(&o.TagsRm, "tags-rm", o.TagsRm, "Remove tags from all rules")
 	f.StringArrayVar(&o.TagsSet, "tags-set", o.TagsSet, "Set tags on all rules")
 	f.BoolVar(&o.TagsClear, "tags-clear", o.TagsClear, "Clear tags from all rules")
+	f.StringVar(&o.LevelSet, "level-set", o.LevelSet, fmt.Sprintf("Set level on all rules [%s, %s, %s, %s]", sigma.LevelLow, sigma.LevelMedium, sigma.LevelHigh, sigma.LevelCritical))
+	f.StringVar(&o.StatusSet, "status-set", o.StatusSet, fmt.Sprintf("Set status on all rules [%s, %s, %s]", sigma.StatusExperimental, sigma.StatusTesting, sigma.StatusStable))
 	return f
 }
 

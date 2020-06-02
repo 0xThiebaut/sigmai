@@ -120,6 +120,8 @@ Additionally, one may change the path using the `--directory-path` flag.
 
 ### Modifiers
 The `sigmai` tool comes with some additional modifiers to ensure the generated rules meet your existing standard.
+
+#### Tags
 More specifically, one can modify the imported rule's tags by using the beneath flags.
 
 | Flag            | Description                                                                               |
@@ -129,6 +131,11 @@ More specifically, one can modify the imported rule's tags by using the beneath 
 | `--tags-set`    | A flag with a comma-separated list of tags to overwrite the current ones.                 |
 | `--tags-clear`  | A flag clearing all tags, resulting in tag-less rules.                                    |
 
+#### Level
+You can also override the rules by defining a common level using the `--level-set` flag.
+
+#### Status
+As for levels, `sigmai` enables you to override the status of all rules by using the `--status-set` flag.
 
 ### Continuous Importing
 It is possible to run `sigmai` continuously a bit like a cron job would.

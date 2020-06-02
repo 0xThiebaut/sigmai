@@ -11,6 +11,8 @@ type Options struct {
 	TagsSet   []string
 	TagsRm    []string
 	TagsAdd   []string
+	LevelSet  string
+	StatusSet string
 }
 
 func (m *Modifier) Process(rules []*sigma.Rule) {
@@ -42,5 +44,13 @@ func (m *Modifier) Process(rules []*sigma.Rule) {
 			}
 		}
 		rules[0].Tags = excl
+	}
+	// And override the level if needed
+	if len(m.Options.LevelSet) > 0 {
+		rules[0].Level = sigma.Level(m.Options.LevelSet)
+	}
+	// As well as the status if needed
+	if len(m.Options.StatusSet) > 0 {
+		rules[0].Status = sigma.Status(m.Options.StatusSet)
 	}
 }
