@@ -413,27 +413,43 @@ func (c *converter) convert(a *attribute.Attribute) map[sigma.LogSource]mapping 
 		// Associate the mapping to any log-source of interest.
 		return map[sigma.LogSource]mapping{
 			{Category: sigma.CategoryFirewall}: {
-				Search: search.Search{
-					field.DstIP:   {ip},
-					field.DstPort: {port},
+				Selections: search.Selections{
+					"IPDstPort": {
+						{
+							field.DstIP:   {ip},
+							field.DstPort: {port},
+						},
+					},
 				},
 			},
 			{Category: sigma.CategoryProxy}: {
-				Search: search.Search{
-					field.DstIP:   {ip},
-					field.DstPort: {port},
+				Selections: search.Selections{
+					"IPDstPort": {
+						{
+							field.DstIP:   {ip},
+							field.DstPort: {port},
+						},
+					},
 				},
 			},
 			{Category: sigma.CategoryWebServer}: {
-				Search: search.Search{
-					field.DstIP:   {ip},
-					field.DstPort: {port},
+				Selections: search.Selections{
+					"IPDstPort": {
+						{
+							field.DstIP:   {ip},
+							field.DstPort: {port},
+						},
+					},
 				},
 			},
 			{Product: sigma.ProductWindows}: {
-				Search: search.Search{
-					field.DestinationIP:   {ip},
-					field.DestinationPort: {port},
+				Selections: search.Selections{
+					"IPDstPort": {
+						{
+							field.DestinationIP:   {ip},
+							field.DestinationPort: {port},
+						},
+					},
 				},
 			},
 		}
@@ -478,9 +494,13 @@ func (c *converter) convert(a *attribute.Attribute) map[sigma.LogSource]mapping 
 		// Associate the mapping to any log-source of interest.
 		return map[sigma.LogSource]mapping{
 			{Product: sigma.ProductWindows}: {
-				Search: search.Search{
-					field.TargetObject: {rekey},
-					field.Description:  {value},
+				Selections: search.Selections{
+					"RegKeyValue": {
+						{
+							field.TargetObject: {rekey},
+							field.Description:  {value},
+						},
+					},
 				},
 			},
 		}
