@@ -221,6 +221,22 @@ func (c *converter) Convert(e *event.Event) []*sigma.Rule {
 			}
 		}
 	}
+	// Explode event-level attributes (i.e. hashes will rarely match alongside IPs)
+	for _, lselect := range lselections {
+		if s, ok := lselect[ei]; ok && len(s) == 1 {
+			// Create an array of exploded searches
+			exps := search.Searches{}
+			// For each event level field
+			for f, k := range s[0] {
+				// Create a earch explicitly for that field
+				exps = append(exps, search.Search{
+					f: k,
+				})
+			}
+			// Override the event level search
+			lselect[ei] = exps
+		}
+	}
 	// Create rules per LogSource
 	for l, s := range lselections {
 		c, ok := lcondion[l]
