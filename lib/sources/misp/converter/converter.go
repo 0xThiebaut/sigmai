@@ -335,7 +335,7 @@ func (c *converter) convert(a *attribute.Attribute) map[sigma.LogSource]mapping 
 				},
 			},
 		}
-	case attribute.TypeFilenameImphash, attribute.TypeFilenameMD5, attribute.TypeFilenameSHA1, attribute.TypeFilenameSHA256, attribute.TypeFilenameSHA512, attribute.TypeFilenameSSDeep:
+	case attribute.TypeFilenameImphash, attribute.TypeFilenameMD5, attribute.TypeFilenameSHA1, attribute.TypeFilenameSHA256, attribute.TypeFilenameSHA384, attribute.TypeFilenameSHA512, attribute.TypeFilenameSSDeep:
 		// Explode the composed attribute
 		parts := strings.Split(a.Value, "|")
 		// Join all the first parts as the filename
@@ -380,6 +380,7 @@ func (c *converter) convert(a *attribute.Attribute) map[sigma.LogSource]mapping 
 						{field.CURI.Contains(): {a.Value}},
 						{field.CSReferrer.Contains(): {a.Value}},
 						{field.RDNS.Contains(): {a.Value}},
+						{field.CSHost.Contains(): {a.Value}},
 					},
 				},
 			},
@@ -392,6 +393,46 @@ func (c *converter) convert(a *attribute.Attribute) map[sigma.LogSource]mapping 
 						{field.ComputerName: {a.Value}},
 						{field.Workstation: {a.Value}},
 						{field.WorkstationName: {a.Value}},
+					},
+				},
+			},
+		}
+	case attribute.TypeHostnamePort:
+		// Explode the composed attribute
+		parts := strings.Split(a.Value, "|")
+		// Turn hostname|port into hostname and hostname:port
+		h := strings.Join(parts[:len(parts)-1], "|")
+		// Associate the mapping to any log-source of interest.
+		return map[sigma.LogSource]mapping{
+			sigma.LogSource{Category: sigma.CategoryProxy}: {
+				Selections: search.Selections{
+					"Hostname": {
+						{field.CURI.Contains(): {h}},
+						{field.CSReferrer.Contains(): {h}},
+						{field.RDNS.Contains(): {h}},
+						{field.CSHost.Contains(): {h}},
+					},
+				},
+			},
+			sigma.LogSource{Category: sigma.CategoryWebServer}: {
+				Selections: search.Selections{
+					"Hostname": {
+						{field.CURI.Contains(): {h}},
+						{field.CSReferrer.Contains(): {h}},
+						{field.RDNS.Contains(): {h}},
+						{field.CSHost.Contains(): {h}},
+					},
+				},
+			},
+			sigma.LogSource{Product: sigma.ProductWindows}: {
+				Selections: search.Selections{
+					"Hostname": {
+						{field.DestinationHostname: {h}},
+						{field.SourceHostname: {h}},
+						{field.Computer: {h}},
+						{field.ComputerName: {h}},
+						{field.Workstation: {h}},
+						{field.WorkstationName: {h}},
 					},
 				},
 			},
@@ -492,11 +533,69 @@ func (c *converter) convert(a *attribute.Attribute) map[sigma.LogSource]mapping 
 				},
 			},
 		}
-	case attribute.TypeMD5, attribute.TypeSHA1, attribute.TypeSHA256, attribute.TypeSHA512, attribute.TypeSSDeep:
+	case attribute.TypeIPSrcPort:
+		// Explode the composed attribute
+		parts := strings.Split(a.Value, "|")
+		// Join all the first parts as the filename
+		ip := strings.Join(parts[:len(parts)-1], "|")
+		// Keep the last part as the hash, which won't contain the "|" character
+		port := parts[len(parts)-1]
+		// Associate the mapping to any log-source of interest.
+		return map[sigma.LogSource]mapping{
+			{Category: sigma.CategoryFirewall}: {
+				Selections: search.Selections{
+					"IPSrcPort": {
+						{
+							field.SrcIP:   {ip},
+							field.SrcPort: {port},
+						},
+					},
+				},
+			},
+			{Category: sigma.CategoryProxy}: {
+				Selections: search.Selections{
+					"IPSrcPort": {
+						{
+							field.SrcIP:   {ip},
+							field.SrcPort: {port},
+						},
+					},
+				},
+			},
+			{Category: sigma.CategoryWebServer}: {
+				Selections: search.Selections{
+					"IPSrcPort": {
+						{
+							field.SrcIP:   {ip},
+							field.SrcPort: {port},
+						},
+					},
+				},
+			},
+			{Product: sigma.ProductWindows}: {
+				Selections: search.Selections{
+					"IPSrcPort": {
+						{
+							field.SourceIP:   {ip},
+							field.SourcePort: {port},
+						},
+					},
+				},
+			},
+		}
+	case attribute.TypeImphash, attribute.TypeMD5, attribute.TypeSHA1, attribute.TypeSHA256, attribute.TypeSHA512, attribute.TypeSSDeep:
 		return map[sigma.LogSource]mapping{
 			{Product: sigma.ProductWindows}: {
 				Search: search.Search{
 					field.Hashes.Contains(): {a.Value},
+				},
+			},
+		}
+	case attribute.TypeRegKey:
+		return map[sigma.LogSource]mapping{
+			{Product: sigma.ProductWindows}: {
+				Search: search.Search{
+					field.TargetObject: {a.Value},
 				},
 			},
 		}
@@ -520,11 +619,11 @@ func (c *converter) convert(a *attribute.Attribute) map[sigma.LogSource]mapping 
 				},
 			},
 		}
-	case attribute.TypeURL:
+	case attribute.TypeURI, attribute.TypeURL:
 		return map[sigma.LogSource]mapping{
 			sigma.LogSource{Category: sigma.CategoryProxy}: {
 				Selections: search.Selections{
-					"URL": {
+					"URI": {
 						{field.CURI: {a.Value}},
 						{field.CSReferrer: {a.Value}},
 						{field.RDNS: {a.Value}},
@@ -533,7 +632,7 @@ func (c *converter) convert(a *attribute.Attribute) map[sigma.LogSource]mapping 
 			},
 			sigma.LogSource{Category: sigma.CategoryWebServer}: {
 				Selections: search.Selections{
-					"URL": {
+					"URI": {
 						{field.CURI: {a.Value}},
 						{field.CSReferrer: {a.Value}},
 						{field.RDNS: {a.Value}},
