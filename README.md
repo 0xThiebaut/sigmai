@@ -80,6 +80,75 @@ In MISP, we'll solely generate Sigma rules for event's with a level (`--misp-lev
 For the eligible events, only attributes flagged for IDS (decent enough for detection) will be used.
 Furthermore, any attribute on a [warning list](https://github.com/MISP/misp-warninglists) (a.k.a. subject to false positives) won't be included.
 
+As an example, this is how a generated multi-document Sigma rule would look like if imported from MISP:
+
+```yaml
+action: global
+title: 'OSINT: Emissary Panda – A potential new malicious tool'
+id: 5b0562d3-8460-4482-93c4-05a3ac12042b
+status: experimental
+description: See MISP event 60870
+author: dcso.de
+level: medium
+tags:
+- APT
+- tlp:white
+- iep:traffic-light-protocol="WHITE"
+- DCSO:tie="ALL"
+- DCSO:sharing="PUBLIC"
+- osint:source-type="blog-post"
+---
+logsource:
+  product: windows
+detection:
+  condition:
+  - event60870
+  - all of event60870attr2049468mapping*
+  - event60870object33488
+  - event60870object33489
+  - event60870object33490 and all of event60870object33490attr2049523mapping*
+  - event60870object33491 and all of event60870object33491attr2049526mapping*
+  event60870:
+    DestinationIp:
+    - 159.65.80.157
+    - 103.59.144.183
+  event60870attr2049468mappingFilename:
+  - Image|endswith: '%APPDATA%\systemconfig\sys.bin.url'
+  - ParentImage|endswith: '%APPDATA%\systemconfig\sys.bin.url'
+  - CommandLine|contains: '%APPDATA%\systemconfig\sys.bin.url'
+  - ParentCommandLine|contains: '%APPDATA%\systemconfig\sys.bin.url'
+  - ProcessName: '%APPDATA%\systemconfig\sys.bin.url'
+  - ParentProcessName: '%APPDATA%\systemconfig\sys.bin.url'
+  event60870object33488:
+    Hashes|contains:
+    - c69d60b82252b6e7eaaeb710d5e1ebe5
+    - 4c0211c91b4b9f99e52f4d385e6e3960b321a3b0
+    - 4d65d371a789aabe1beadcc10b38da1f998cd3ec87d4cc1cfbf0af014b783822
+    - 768:NHO6X9W62QIPe1HhDIRmnTEDtcvyvfSl0zeM:NHOymWBDLYg0zB
+  event60870object33489:
+    Hashes|contains: 93b972951685b4ae284583dbc3959725
+  event60870object33490:
+    Hashes|contains: 2b2bb4c132d808572f180fe4db3a0a3143a37fdece667f8e78778ee1e9717606
+  event60870object33490attr2049523mappingFilename:
+  - Image|endswith: sys.bin.url
+  - ParentImage|endswith: sys.bin.url
+  - CommandLine|contains: sys.bin.url
+  - ParentCommandLine|contains: sys.bin.url
+  - ProcessName: sys.bin.url
+  - ParentProcessName: sys.bin.url
+  event60870object33491:
+    Hashes|contains: 3e718f39dfb2f6b8fba366fefa8b7c127db1e6795f3caad2d4a9f3753eea0adc
+  event60870object33491attr2049526mappingFilename:
+  - Image|endswith: sys.bin.url
+  - ParentImage|endswith: sys.bin.url
+  - CommandLine|contains: sys.bin.url
+  - ParentCommandLine|contains: sys.bin.url
+  - ProcessName: sys.bin.url
+  - ParentProcessName: sys.bin.url
+---
+// Many more log-sources (firewall, proxy, webserver, ...) are trimmed for readability...
+```
+
 ###### Specific Events
 Alternatively, you might wish to import a specific set of events.
 To do so, you might use the `--misp-events` flag as follows:
@@ -156,6 +225,8 @@ Did you know that when compiling the Sigma rules with `sigmac`, you can [filter 
 
 ## Acknowledgements
 Development of this project has been supported by [NVISO Labs](https://www.nviso.eu/en/research). Interested in this project? You might [fit with us](https://www.nviso.eu/en/jobs)!
+
+Many thanks to [Florian Roth](https://twitter.com/Cyb3rOps) for his valuable feedback and without whom we wouldn't have [Sigma](https://github.com/Neo23x0/sigma) in the first place.
 
 ## License
 &copy; Maxime Thiebaut, 2020 &mdash; [Licensed under the EUPL](./LICENSE.txt).
