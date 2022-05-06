@@ -84,67 +84,149 @@ As an example, this is how a generated multi-document Sigma rule would look like
 
 ```yaml
 action: global
-title: 'OSINT: Emissary Panda – A potential new malicious tool'
-id: 5b0562d3-8460-4482-93c4-05a3ac12042b
+title: 'Related IoCs to https://cert.gov.ua/article/39708 - Cyberattack on state organizations
+  of Ukraine using the topic "Azovstal" and the malicious program Cobalt Strike Beacon
+  (CERT-UA # 4490)'
+id: 1b2b6e15-3655-4648-afcb-c93214187736
 status: experimental
-description: See MISP event 60870
-author: dcso.de
-level: medium
+description: See MISP event 6803
+author: CIRCL
+level: high
 tags:
-- APT
-- tlp:white
-- iep:traffic-light-protocol="WHITE"
-- DCSO:tie="ALL"
-- DCSO:sharing="PUBLIC"
-- osint:source-type="blog-post"
+  - type:OSINT
+  - osint:lifetime="perpetual"
+  - osint:certainty="50"
+  - tlp:white
+  - misp-galaxy:target-information="Ukraine"
+  - misp-galaxy:tool="Cobalt Strike"
+  - misp-galaxy:tool="Trick Bot"
 ---
+action: global
 logsource:
   product: windows
+---
 detection:
-  condition:
-  - event60870
-  - all of event60870attr2049468mapping*
-  - event60870object33488
-  - event60870object33489
-  - event60870object33490 and all of event60870object33490attr2049523mapping*
-  - event60870object33491 and all of event60870object33491attr2049526mapping*
-  event60870:
-    DestinationIp:
-    - 159.65.80.157
-    - 103.59.144.183
-  event60870attr2049468mappingFilename:
-  - Image|endswith: '%APPDATA%\systemconfig\sys.bin.url'
-  - ParentImage|endswith: '%APPDATA%\systemconfig\sys.bin.url'
-  - CommandLine|contains: '%APPDATA%\systemconfig\sys.bin.url'
-  - ParentCommandLine|contains: '%APPDATA%\systemconfig\sys.bin.url'
-  - ProcessName: '%APPDATA%\systemconfig\sys.bin.url'
-  - ParentProcessName: '%APPDATA%\systemconfig\sys.bin.url'
-  event60870object33488:
-    Hashes|contains:
-    - c69d60b82252b6e7eaaeb710d5e1ebe5
-    - 4c0211c91b4b9f99e52f4d385e6e3960b321a3b0
-    - 4d65d371a789aabe1beadcc10b38da1f998cd3ec87d4cc1cfbf0af014b783822
-    - 768:NHO6X9W62QIPe1HhDIRmnTEDtcvyvfSl0zeM:NHOymWBDLYg0zB
-  event60870object33489:
-    Hashes|contains: 93b972951685b4ae284583dbc3959725
-  event60870object33490:
-    Hashes|contains: 2b2bb4c132d808572f180fe4db3a0a3143a37fdece667f8e78778ee1e9717606
-  event60870object33490attr2049523mappingFilename:
-  - Image|endswith: sys.bin.url
-  - ParentImage|endswith: sys.bin.url
-  - CommandLine|contains: sys.bin.url
-  - ParentCommandLine|contains: sys.bin.url
-  - ProcessName: sys.bin.url
-  - ParentProcessName: sys.bin.url
-  event60870object33491:
-    Hashes|contains: 3e718f39dfb2f6b8fba366fefa8b7c127db1e6795f3caad2d4a9f3753eea0adc
-  event60870object33491attr2049526mappingFilename:
-  - Image|endswith: sys.bin.url
-  - ParentImage|endswith: sys.bin.url
-  - CommandLine|contains: sys.bin.url
-  - ParentCommandLine|contains: sys.bin.url
-  - ProcessName: sys.bin.url
-  - ParentProcessName: sys.bin.url
+  condition: all of event6803attr2265257mapping*
+  event6803attr2265257mappingHostname:
+    - - DestinationHostname: kitchenbath.mckillican.com
+      - SourceHostname: kitchenbath.mckillican.com
+      - Computer: kitchenbath.mckillican.com
+      - ComputerName: kitchenbath.mckillican.com
+      - Workstation: kitchenbath.mckillican.com
+      - WorkstationName: kitchenbath.mckillican.com
+---
+detection:
+  condition: all of event6803attr2265258mapping*
+  event6803attr2265258mappingHostname:
+    - - DestinationHostname: www.15ns84-fedex.us
+      - SourceHostname: www.15ns84-fedex.us
+      - Computer: www.15ns84-fedex.us
+      - ComputerName: www.15ns84-fedex.us
+      - Workstation: www.15ns84-fedex.us
+      - WorkstationName: www.15ns84-fedex.us
+---
+// Some more domain-related detections
+---
+detection:
+  condition: event6803object276948 and all of event6803object276948attr2265319mapping*
+  event6803object276948:
+    - Hashes|contains:
+        - 877f834e8788d05b625ba639b9318512
+        - 96bde83f4d3f29fb2801cd357c1abea827487e37
+        - ea9dae45f81fe3527c62ad7b84b03d19629014b1a0e346b6aa933e52b0929d8a
+        - cf72096dee679bce8cde6eacf922b5559dbac9b77367a7f2a3fba5022fd2b1303aa1c5805167c3cb8fb774e7390fab86eb3d16585fc72c31497a08bdf2b26518
+        - 768:pdzHDjCxD6czZ8K1PjOoDl8SZbKsLRGKpb8rGYrMPelwhKmFV5xtezEs/48/dgAX:pVHDjCxD6czZ8K1PjOoDl8SZbKsLRGKM
+  event6803object276948attr2265319mappingFilename:
+    - - Image|endswith: ea9dae45f81fe3527c62ad7b84b03d19629014b1a0e346b6aa933e52b0929d8a
+      - ProcessName|contains: ea9dae45f81fe3527c62ad7b84b03d19629014b1a0e346b6aa933e52b0929d8a
+---
+// Some more file-related detections
+---
+detection:
+  condition: event6803
+  event6803:
+    - DestinationIp:
+        - 84.32.188.29
+        - 139.60.161.225
+        - 139.60.161.74
+        - 139.60.161.62
+        - 139.60.161.99
+        - 139.60.161.57
+        - 139.60.161.75
+        - 139.60.161.24
+        - 139.60.161.89
+        - 139.60.161.209
+        - 139.60.161.85
+        - 139.60.160.51
+        - 139.60.161.226
+        - 139.60.161.216
+        - 139.60.161.163
+        - 139.60.160.8
+        - 139.60.161.32
+        - 139.60.161.45
+        - 139.60.161.60
+        - 139.60.160.17
+    - Hashes|contains:
+        - 6f0ddfe6b68ea68b5e450e30b131137b6f01c60cc8383f3c48bea0c8acb6ef1c
+        - 9990fe0d8aac0b4a6040d5979afd822c2212d9aec2b90e5d10c0b15dee8d61b1
+        - df58100f881e2bfa694e00dd06bdb326b272a51ff9b75114819498a26bf6504c
+        - ea9dae45f81fe3527c62ad7b84b03d19629014b1a0e346b6aa933e52b0929d8a
+---
+action: global
+logsource:
+  category: proxy
+---
+detection:
+  condition: all of event6803attr2265246mapping*
+  event6803attr2265246mappingURI:
+    - - c-uri: https://e5qo83-fedex.us/wzlco?VLakox?80934612
+      - cs-referrer: https://e5qo83-fedex.us/wzlco?VLakox?80934612
+      - r-dns: https://e5qo83-fedex.us/wzlco?VLakox?80934612
+---
+detection:
+  condition: all of event6803attr2265247mapping*
+  event6803attr2265247mappingURI:
+    - - c-uri: http://138.68.229.0/pe.dll
+      - cs-referrer: http://138.68.229.0/pe.dll
+      - r-dns: http://138.68.229.0/pe.dll
+---
+// Some more proxy-related detections
+---
+detection:
+  condition: event6803
+  event6803:
+    - dst_ip:
+        - 84.32.188.29
+        - 139.60.161.225
+        - 139.60.161.74
+        - 139.60.161.62
+        - 139.60.161.99
+        - 139.60.161.57
+        - 139.60.161.75
+        - 139.60.161.24
+        - 139.60.161.89
+        - 139.60.161.209
+        - 139.60.161.85
+        - 139.60.160.51
+        - 139.60.161.226
+        - 139.60.161.216
+        - 139.60.161.163
+        - 139.60.160.8
+        - 139.60.161.32
+        - 139.60.161.45
+        - 139.60.161.60
+        - 139.60.160.17
+---
+action: global
+logsource:
+  category: webserver
+---
+detection:
+  condition: all of event6803attr2265246mapping*
+  event6803attr2265246mappingURI:
+    - - c-uri: https://e5qo83-fedex.us/wzlco?VLakox?80934612
+      - cs-referrer: https://e5qo83-fedex.us/wzlco?VLakox?80934612
+      - r-dns: https://e5qo83-fedex.us/wzlco?VLakox?80934612
 ---
 // Many more log-sources (firewall, proxy, webserver, ...) are trimmed for readability...
 ```

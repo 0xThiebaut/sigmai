@@ -5,6 +5,7 @@ type Field string
 const (
 	CommandLine         Field = "CommandLine"
 	CSHost              Field = "cs-host"
+	CSMethod            Field = "cs-method"
 	CSReferrer          Field = "cs-referrer"
 	Computer            Field = "Computer"
 	ComputerName        Field = "ComputerName"

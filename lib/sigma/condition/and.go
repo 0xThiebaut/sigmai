@@ -5,12 +5,7 @@ import (
 )
 
 func And(a Condition, b Condition) Condition {
-	if ac, ok := a.(*andCondition); ok {
-		return ac.And(b)
-	} else if ac, ok = b.(*andCondition); ok {
-		return ac.And(a)
-	}
-	return &andCondition{and: []Condition{a, b}}
+	return (&andCondition{}).And(a).And(b)
 }
 
 type andCondition struct {
@@ -18,9 +13,9 @@ type andCondition struct {
 }
 
 func (c *andCondition) And(cond Condition) Condition {
-	if ac, ok := cond.(*andCondition); ok {
+	if ac, ok := cond.(*andCondition); ok && ac != nil {
 		c.and = append(c.and, ac.and...)
-	} else {
+	} else if cond != nil {
 		c.and = append(c.and, cond)
 	}
 	return c
@@ -35,17 +30,20 @@ func (c *andCondition) MarshalYAML() (interface{}, error) {
 }
 
 func (c *andCondition) String() string {
-	x := len(c.and)
-	if x == 1 {
+	switch len(c.and) {
+	case 0:
+		return ""
+	case 1:
 		return c.and[0].String()
-	}
-	s := make([]string, len(c.and))
-	for i, cond := range c.and {
-		if sc, ok := cond.(singleCondition); ok {
-			s[i] = sc.String()
-		} else {
-			s[i] = "(" + cond.String() + ")"
+	default:
+		s := make([]string, len(c.and))
+		for i, cond := range c.and {
+			if sc, ok := cond.(singleCondition); ok {
+				s[i] = sc.String()
+			} else {
+				s[i] = "(" + cond.String() + ")"
+			}
 		}
+		return strings.Join(s, " and ")
 	}
-	return strings.Join(s, " and ")
 }

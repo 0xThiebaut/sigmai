@@ -28,3 +28,25 @@ const (
 	DistributionAllCommunities       Distribution = "3"
 	DistributionSharingGroup         Distribution = "4"
 )
+
+const (
+	CommandLine   = "command-line"
+	DomainCrawled = "domain-crawled"
+	DomainIP      = "domain-ip"
+	ElfSection    = "elf-section"
+	Email         = "email"
+	File          = "file"
+	HttpRequest   = "http-request"
+	Image         = "image"
+	Lnk           = "lnk"
+	Pe            = "pe"
+	PeSection     = "pe-section"
+	Phishing      = "phishing"
+	Process       = "process"
+	RegistryKey   = "registry-key"
+	Script        = "script"
+	ShortenedLink = "shortened-link"
+	Suricata      = "suricata"
+	Url           = "url"
+	Yara          = "yara"
+)

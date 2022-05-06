@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"crypto/tls"
 	"encoding/json"
+	"errors"
 	"github.com/0xThiebaut/sigmai/lib/sources/misp/lib/attribute"
 	"github.com/0xThiebaut/sigmai/lib/sources/misp/lib/event"
 	"github.com/0xThiebaut/sigmai/lib/sources/misp/lib/object"
@@ -103,6 +104,9 @@ func (w *worker) Events() chan *event.Event {
 			if err != nil {
 				w.err = err
 				return
+			} else if resp.StatusCode != 200 {
+				w.err = errors.New(resp.Status)
+				return
 			}
 			// Create a new decoder
 			dec := json.NewDecoder(resp.Body)
@@ -198,6 +202,8 @@ func (w *worker) enrichObjects(e *event.Event) error {
 		resp, err := w.Client.Do(req)
 		if err != nil {
 			return err
+		} else if resp.StatusCode != 200 {
+			return errors.New(resp.Status)
 		}
 		// Create a new decoder
 		dec := json.NewDecoder(resp.Body)
@@ -252,6 +258,8 @@ func (w *worker) enrichAttributes(e *event.Event) error {
 		resp, err := w.Client.Do(req)
 		if err != nil {
 			return err
+		} else if resp.StatusCode != 200 {
+			return errors.New(resp.Status)
 		}
 		// Create a new decoder
 		dec := json.NewDecoder(resp.Body)
